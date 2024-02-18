@@ -1,18 +1,16 @@
-import csv
 import os
+
+import pandas as pd
+
+from csv_generator import generate_csv_file
 
 file_name = "tradable_instruments.csv"
 
 
 def generate_tradable_instruments_csv(dir_path: str):
-    # Kombinování cesty ke složce a názvu souboru
     full_path = os.path.join(dir_path, file_name)
-
-    with open(full_path, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["symbol"])
-        for symbol in symbols:
-            writer.writerow([symbol])
+    df = pd.DataFrame(symbols, columns=["symbol"])
+    generate_csv_file(df, full_path)
 
 
 symbols = [
