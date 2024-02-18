@@ -1,8 +1,10 @@
 import os
+from webbrowser import get
 
 from src.csvconfig.csvconfig_generator import generate_csvconfig_sctructure
 from src.raw_data.adjusted_prices_generator import generate_adjusted_prices_sctructure
 from src.raw_data.fx_prices_generator import generate_fx_prices_sctructure
+from src.raw_data.multiple_prices_generator import generate_multiple_prices_sctructure
 from src.tradable_insturments.tradable_instruments_generator import (
     generate_tradable_instruments_csv,
 )
@@ -24,6 +26,9 @@ def main():
     )
     generate_fx_prices_sctructure(
         get_source_path(), dir_structure_generator.get_fx_prices_path()
+    )
+    generate_multiple_prices_sctructure(
+        get_source_path(), dir_structure_generator.get_multiple_prices_path()
     )
 
 
@@ -57,7 +62,7 @@ class DirStructureGenerator:
         return "data/adjusted_prices"
 
     def get_csvconfig_path(self):
-        return "data/config"
+        return "data/csvconfig"
 
     def get_fx_prices_path(self):
         return "data/fx_prices"
