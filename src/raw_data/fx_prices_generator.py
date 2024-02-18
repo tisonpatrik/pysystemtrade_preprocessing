@@ -32,12 +32,27 @@ def generate_fx_prices_sctructure(source_path: str, target_path: str):
         renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_based_prices(date_timed, "unix_date_time")
-
         rounded = round_values_in_column(resampled, "price")
+        empty_value_checker(rounded)
         unixed = covert_date_to_unix_time(rounded)
+
         processed_data_frames.append(unixed)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)
 
     generate_csv_file(result, target_path)
+
+
+def empty_value_checker(data_frame):
+    contains_empty_or_nan = (
+        data_frame["price"].isna().any() or (data_frame["price"] == "").any()
+    )
+    if contains_empty_or_nan:
+        filtered_df = data_frame[
+            (data_frame["price"].isna()) | (data_frame["price"] == "")
+        ]
+        print(data_frame.iloc[5020:5030])
+
+        print(f"Data contains empty or NaN values for price: {filtered_df['price']}")
+        print("Data contains empty or NaN values")

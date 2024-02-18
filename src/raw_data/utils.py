@@ -28,7 +28,7 @@ def aggregate_to_day_based_prices(
     df.set_index(date_time_column, inplace=True)
     resampled = df.resample("1B").last()
     resampled.reset_index(inplace=True)
-    df_cleaned = resampled.dropna(subset=["symbol"])
+    df_cleaned = resampled.dropna(subset=["price"])
     return df_cleaned
 
 
