@@ -1,10 +1,14 @@
 import csv
+import os
 
-file_path = "data/tradable_instruments.csv"
+file_name = "tradable_instruments.csv"
 
 
-def generate_tradable_instruments_csv():
-    with open(file_path, mode="w") as file:
+def generate_tradable_instruments_csv(dir_path: str):
+    # Kombinování cesty ke složce a názvu souboru
+    full_path = os.path.join(dir_path, file_name)
+
+    with open(full_path, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["symbol"])
         for symbol in symbols:
