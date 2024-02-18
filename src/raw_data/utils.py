@@ -28,7 +28,8 @@ def aggregate_to_day_based_prices(
     df.set_index(date_time_column, inplace=True)
     resampled = df.resample("1B").last()
     resampled.reset_index(inplace=True)
-    return resampled
+    df_cleaned = resampled.dropna(subset=["symbol"])
+    return df_cleaned
 
 
 def round_values_in_column(df: pd.DataFrame, column_name: str) -> pd.DataFrame:

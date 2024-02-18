@@ -32,6 +32,7 @@ def generate_fx_prices_sctructure(source_path: str, target_path: str):
         renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_based_prices(date_timed, "unix_date_time")
+
         rounded = round_values_in_column(resampled, "price")
         unixed = covert_date_to_unix_time(rounded)
         processed_data_frames.append(unixed)
