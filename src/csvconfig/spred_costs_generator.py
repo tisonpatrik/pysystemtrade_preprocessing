@@ -10,7 +10,7 @@ from src.tradable_insturments.tradable_instruments_generator import (
 source_name = "spreadcosts.csv"
 target_name = "spread_costs.csv"
 
-new_columns = ["symbol", "spread_cost"]
+new_columns = ["symbol", "spread_costs"]
 
 
 def generate_spread_costs_csv(source_path: str, target_path: str):
