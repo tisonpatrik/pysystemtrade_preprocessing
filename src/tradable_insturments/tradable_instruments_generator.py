@@ -13,6 +13,10 @@ def generate_tradable_instruments_csv(dir_path: str):
     generate_csv_file(df, full_path)
 
 
+def get_tradable_instruments():
+    return symbols
+
+
 symbols = [
     "AEX",
     "ALUMINIUM",
