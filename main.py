@@ -1,6 +1,7 @@
 import os
 
 from src.csvconfig.csvconfig_generator import generate_csvconfig_sctructure
+from src.raw_data.adjusted_prices_generator import generate_adjusted_prices_sctructure
 from src.tradable_insturments.tradable_instruments_generator import (
     generate_tradable_instruments_csv,
 )
@@ -16,6 +17,9 @@ def main():
 
     generate_csvconfig_sctructure(
         get_source_path(), dir_structure_generator.get_csvconfig_path()
+    )
+    generate_adjusted_prices_sctructure(
+        get_source_path(), dir_structure_generator.get_adjusted_prices_csv_path()
     )
 
 
