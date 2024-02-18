@@ -32,8 +32,7 @@ def aggregate_to_day_based_prices(
 
 
 def round_values_in_column(df: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    df[column_name] = df[column_name].astype(float)
-    df[column_name] = df[column_name].round(3)
+    df[column_name] = df[column_name].round(6)
     return df
 
 
