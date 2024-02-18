@@ -39,11 +39,31 @@ def generate_multiple_prices_sctructure(source_path: str, target_path: str):
         renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_based_prices(date_timed, "unix_date_time")
+        empty_value_checker(resampled)
         rounded = round_values_in_column(resampled, "price")
         unixed = covert_date_to_unix_time(rounded)
+        unixed["carry_contract"] = unixed["carry_contract"].astype(int)
+        unixed["price_contract"] = unixed["price_contract"].astype(int)
+        unixed["forward_contract"] = unixed["forward_contract"].astype(int)
+
         processed_data_frames.append(unixed)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)
 
     generate_csv_file(result, target_path)
+
+
+def empty_value_checker(data_frame):
+    column = "carry_contract"
+    contains_empty_or_nan = (
+        data_frame[column].isna().any() or (data_frame[column] == "").any()
+    )
+    if contains_empty_or_nan:
+        filtered_df = data_frame[
+            (data_frame[column].isna()) | (data_frame[column] == "")
+        ]
+        print(data_frame.iloc[6255:6270])
+
+        print(f"Data contains empty or NaN values for price: {filtered_df['carry']}")
+        print("Data contains empty or NaN values")
