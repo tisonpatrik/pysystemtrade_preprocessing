@@ -1,10 +1,10 @@
 import os
-from webbrowser import get
 
 from src.csvconfig.csvconfig_generator import generate_csvconfig_sctructure
 from src.raw_data.adjusted_prices_generator import generate_adjusted_prices_sctructure
 from src.raw_data.fx_prices_generator import generate_fx_prices_sctructure
 from src.raw_data.multiple_prices_generator import generate_multiple_prices_sctructure
+from src.raw_data.roll_calendars_generator import generate_roll_calendars_sctructure
 from src.tradable_insturments.tradable_instruments_generator import (
     generate_tradable_instruments_csv,
 )
@@ -29,6 +29,9 @@ def main():
     )
     generate_multiple_prices_sctructure(
         get_source_path(), dir_structure_generator.get_multiple_prices_path()
+    )
+    generate_roll_calendars_sctructure(
+        get_source_path(), dir_structure_generator.get_roll_calendars_csv_path()
     )
 
 
