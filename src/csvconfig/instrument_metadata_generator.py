@@ -7,7 +7,8 @@ from src.tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
 )
 
-file_name = "instrument_metadata.csv"
+source_name = "moreinstrumentinfo.csv"
+target_name = "instrument_metadata.csv"
 
 new_columns = [
     "symbol",
@@ -19,7 +20,6 @@ new_columns = [
     "duration",
     "description",
 ]
-source_name = "moreinstrumentinfo.csv"
 
 
 def generate_instrument_metadata_csv(source_path: str, target_path: str):
@@ -28,7 +28,7 @@ def generate_instrument_metadata_csv(source_path: str, target_path: str):
     df.columns = new_columns
     symbols = get_tradable_instruments()
     filtered_df = df[df["symbol"].isin(symbols)]
-    target_path = os.path.join(target_path, file_name)
+    target_path = os.path.join(target_path, target_name)
     generate_csv_file(filtered_df, target_path)
 
 

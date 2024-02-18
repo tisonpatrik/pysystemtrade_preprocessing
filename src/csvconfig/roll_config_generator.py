@@ -7,23 +7,20 @@ from src.tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
 )
 
-source_name = "instrumentconfig.csv"
-target_name = "instrument_config.csv"
+source_name = "rollconfig.csv"
+target_name = "roll_config.csv"
 
 new_columns = [
     "symbol",
-    "description",
-    "pointsize",
-    "currency",
-    "asset_class",
-    "per_block",
-    "percentage",
-    "per_trade",
-    "region",
+    "hold_roll_cycle",
+    "roll_offset_days",
+    "carry_offset",
+    "priced_roll_cycle",
+    "expiry_offset",
 ]
 
 
-def generate_instrumentconfig_csv(source_path: str, target_path: str):
+def generate_instrument_config_csv(source_path: str, target_path: str):
     source_path = os.path.join(source_path, source_name)
     df = pd.read_csv(source_path)
     df.columns = new_columns
