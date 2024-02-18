@@ -8,6 +8,7 @@ file_name = "tradable_instruments.csv"
 
 
 def generate_tradable_instruments_csv(dir_path: str):
+    print("Generation of tradable_instruments.csv")
     full_path = os.path.join(dir_path, file_name)
     df = pd.DataFrame(symbols, columns=["symbol"])
     generate_csv_file(df, full_path)

@@ -12,10 +12,8 @@ def main():
     print("Generation of directory structure")
     dir_structure_generator.generate_dir_structure()
 
-    print("Generation of tradable_instruments.csv")
     generate_tradable_instruments_csv(dir_structure_generator.get_csvconfig_path())
 
-    print("Generation of csvconfig structure")
     generate_csvconfig_sctructure(
         get_source_path(), dir_structure_generator.get_csvconfig_path()
     )
