@@ -1,7 +1,7 @@
 import os
 
-from csvconfig.csvconfig_generator import generate_csvconfig_sctructure
-from tradable_insturments.tradable_instruments_generator import (
+from src.csvconfig.csvconfig_generator import generate_csvconfig_sctructure
+from src.tradable_insturments.tradable_instruments_generator import (
     generate_tradable_instruments_csv,
 )
 
@@ -17,14 +17,14 @@ def main():
 
     print("Generation of csvconfig structure")
     generate_csvconfig_sctructure(
-        dir_structure_generator.get_csvconfig_path(), get_source_path()
+        get_source_path(), dir_structure_generator.get_csvconfig_path()
     )
 
 
 def get_source_path():
     current_script_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_script_path)
-    parent_dir_of_repositories = os.path.join(current_dir, "..", "..")
+    parent_dir_of_repositories = os.path.join(current_dir, "..")
     source_path = os.path.join(
         parent_dir_of_repositories, "pysystemtrade", "data", "futures"
     )

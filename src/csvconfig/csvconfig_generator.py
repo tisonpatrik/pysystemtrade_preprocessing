@@ -1,6 +1,11 @@
-from instrumentconfig_generator import generate_instrumentconfig_csv
+import os
+
+from src.csvconfig.instrumentconfig_generator import generate_instrumentconfig_csv
+
+source_sub_dir = "csvconfig"
 
 
-def generate_csvconfig_sctructure(dir_path: str, source_path: str):
+def generate_csvconfig_sctructure(source_path: str, target_path: str):
     print("Generation of csvconfig structure")
-    generate_instrumentconfig_csv(dir_path, source_path)
+    source_path = os.path.join(source_path, source_sub_dir)
+    generate_instrumentconfig_csv(source_path, target_path)
