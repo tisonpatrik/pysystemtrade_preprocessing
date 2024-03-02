@@ -4,7 +4,6 @@ from src.csv_utils.csv_generator import generate_csv_file, load_multiple_csv_fil
 from src.raw_data.utils import (
     concatenate_data_frames,
     convert_date_to_date_time,
-    covert_date_to_unix_time,
     fix_names_of_columns,
 )
 from src.tradable_insturments.tradable_instruments_generator import (
@@ -14,7 +13,7 @@ from src.tradable_insturments.tradable_instruments_generator import (
 source_name = "roll_calendars_csv"
 target_name = "roll_calendars.csv"
 new_columns = [
-    "unix_date_time",
+    "date_time",
     "current_contract",
     "next_contract",
     "carry_contract",
@@ -33,8 +32,7 @@ def generate_roll_calendars_sctructure(source_path: str, target_path: str):
     for symbol_name, data_frame in dataframes.items():
         renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
         date_timed = convert_date_to_date_time(renamed)
-        unixed = covert_date_to_unix_time(date_timed)
-        processed_data_frames.append(unixed)
+        processed_data_frames.append(date_timed)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)
