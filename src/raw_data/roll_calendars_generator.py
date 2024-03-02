@@ -22,7 +22,7 @@ new_columns = [
 
 
 def generate_roll_calendars_sctructure(source_path: str, target_path: str):
-    print("Generation of adjusted_prices structure")
+    print("Generation of roll_calendars structure")
     source_path = os.path.join(source_path, source_name)
     list_of_symbols = get_tradable_instruments()
     dataframes = load_multiple_csv_files(
