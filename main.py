@@ -21,6 +21,9 @@ def main():
     generate_csvconfig_sctructure(
         get_source_path(), dir_structure_generator.get_csvconfig_path()
     )
+    generate_roll_calendars_sctructure(
+        get_source_path(), dir_structure_generator.get_roll_calendars_csv_path()
+    )
     generate_adjusted_prices_sctructure(
         get_source_path(), dir_structure_generator.get_adjusted_prices_csv_path()
     )
@@ -29,9 +32,6 @@ def main():
     )
     generate_multiple_prices_sctructure(
         get_source_path(), dir_structure_generator.get_multiple_prices_path()
-    )
-    generate_roll_calendars_sctructure(
-        get_source_path(), dir_structure_generator.get_roll_calendars_csv_path()
     )
 
 

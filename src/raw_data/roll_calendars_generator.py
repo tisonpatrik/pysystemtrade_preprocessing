@@ -30,6 +30,8 @@ def generate_roll_calendars_sctructure(source_path: str, target_path: str):
     )
     processed_data_frames = []
     for symbol_name, data_frame in dataframes.items():
+        if "Unnamed: 4" in data_frame.columns:  # Adjust the column name as needed
+            data_frame = data_frame.drop(columns=["Unnamed: 4"])
         renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         processed_data_frames.append(date_timed)

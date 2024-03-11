@@ -28,8 +28,10 @@ def generate_instrument_metadata_csv(source_path: str, target_path: str):
     df.columns = new_columns
     symbols = get_tradable_instruments()
     filtered_df = df[df["symbol"].isin(symbols)]
+    columns_to_drop = ["sub_sub_class", "style", "country", "duration"]
+    droped_columns = filtered_df.drop(columns_to_drop, axis=1)
     target_path = os.path.join(target_path, target_name)
-    generate_csv_file(filtered_df, target_path)
+    generate_csv_file(droped_columns, target_path)
 
 
 def finish_data(df):
