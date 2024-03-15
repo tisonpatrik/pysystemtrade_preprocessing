@@ -30,21 +30,27 @@ def generate_instrument_metadata_csv(source_path: str, target_path: str):
     filtered_df = df[df["symbol"].isin(symbols)]
     columns_to_drop = ["sub_sub_class", "style", "country", "duration"]
     droped_columns = filtered_df.drop(columns_to_drop, axis=1)
+    fixed_missing_data = finish_data(droped_columns)
     target_path = os.path.join(target_path, target_name)
-    generate_csv_file(droped_columns, target_path)
+    generate_csv_file(fixed_missing_data, target_path)
 
 
 def finish_data(df):
-    def determine_sub_class(symbol):
-        if symbol == "V2X":
-            return "EU-Vol"
-        elif symbol in ["VIX", "VIX_mini"]:
-            return "US-Vol"
-        elif symbol == "VNKI":
-            return "JPY-Vol"
+    def determine_sub_class(row):
+        # Check if sub_class is already set or not
+        if pd.isna(row["sub_class"]):
+            if row["symbol"] == "V2X":
+                return "EU-Vol"
+            elif row["symbol"] in ["VIX", "VIX_mini"]:
+                return "US-Vol"
+            elif row["symbol"] == "VNKI":
+                return "JPY-Vol"
+            else:
+                return None  # Or some default value, as appropriate
         else:
-            return None  # Or some default value, as appropriate
+            # Return existing value if sub_class is not empty
+            return row["sub_class"]
 
-    # Apply the function to the 'symbol' column to update the 'sub_class' column
-    df["sub_class"] = df["symbol"].apply(determine_sub_class)
+    # Apply the function across rows, updating 'sub_class' based on 'symbol'
+    df["sub_class"] = df.apply(determine_sub_class, axis=1)
     return df
