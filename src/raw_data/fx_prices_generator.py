@@ -8,11 +8,12 @@ from src.raw_data.utils import (
     convert_date_to_date_time,
     fix_names_of_columns,
     round_values_in_column,
+    fill_symbol_name
 )
 
 source_name = "fx_prices_csv"
 target_name = "fx_prices.csv"
-new_columns = ["date_time", "price", "symbol"]
+new_columns = ["date_time", "price"]
 
 
 def generate_fx_prices_sctructure(source_path: str, target_path: str):
@@ -28,11 +29,12 @@ def generate_fx_prices_sctructure(source_path: str, target_path: str):
     )
     processed_data_frames = []
     for symbol_name, data_frame in dataframes.items():
-        renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
+        renamed = fix_names_of_columns(data_frame, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_prices(date_timed, "date_time")
         rounded = round_values_in_column(resampled, "price")
-        empty_value_checker(rounded)
+        filled = fill_symbol_name(date_timed, symbol_name)
+        empty_value_checker(filled)
 
         processed_data_frames.append(rounded)
 

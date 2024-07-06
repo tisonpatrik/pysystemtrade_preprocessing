@@ -42,6 +42,7 @@ def get_source_path():
     source_path = os.path.join(
         parent_dir_of_repositories, "pysystemtrade", "data", "futures"
     )
+    print("source_path: ", source_path)
     return os.path.abspath(source_path)
 
 

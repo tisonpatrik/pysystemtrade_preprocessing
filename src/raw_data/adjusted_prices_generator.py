@@ -7,6 +7,7 @@ from src.raw_data.utils import (
     convert_date_to_date_time,
     fix_names_of_columns,
     round_values_in_column,
+    fill_symbol_name
 )
 from src.tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
@@ -14,7 +15,7 @@ from src.tradable_insturments.tradable_instruments_generator import (
 
 source_name = "adjusted_prices_csv"
 target_name = "adjusted_prices.csv"
-new_columns = ["date_time", "price", "symbol"]
+new_columns = ["date_time", "price"]
 
 
 def generate_adjusted_prices_sctructure(source_path: str, target_path: str):
@@ -26,11 +27,12 @@ def generate_adjusted_prices_sctructure(source_path: str, target_path: str):
     )
     processed_data_frames = []
     for symbol_name, data_frame in dataframes.items():
-        renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
+        renamed = fix_names_of_columns(data_frame, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_prices(date_timed, "date_time")
         rounded = round_values_in_column(resampled, "price")
-        processed_data_frames.append(rounded)
+        filled = fill_symbol_name(rounded, symbol_name)
+        processed_data_frames.append(filled)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)

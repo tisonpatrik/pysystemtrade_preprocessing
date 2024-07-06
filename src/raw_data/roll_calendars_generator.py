@@ -5,6 +5,7 @@ from src.raw_data.utils import (
     concatenate_data_frames,
     convert_date_to_date_time,
     fix_names_of_columns,
+    fill_symbol_name
 )
 from src.tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
@@ -17,7 +18,7 @@ new_columns = [
     "current_contract",
     "next_contract",
     "carry_contract",
-    "symbol",
+
 ]
 
 
@@ -32,9 +33,10 @@ def generate_roll_calendars_sctructure(source_path: str, target_path: str):
     for symbol_name, data_frame in dataframes.items():
         if "Unnamed: 4" in data_frame.columns:  # Adjust the column name as needed
             data_frame = data_frame.drop(columns=["Unnamed: 4"])
-        renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
+        renamed = fix_names_of_columns(data_frame, new_columns)
         date_timed = convert_date_to_date_time(renamed)
-        processed_data_frames.append(date_timed)
+        filled = fill_symbol_name(date_timed, symbol_name)
+        processed_data_frames.append(filled)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)

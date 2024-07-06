@@ -7,6 +7,8 @@ from src.raw_data.utils import (
     convert_date_to_date_time,
     fix_names_of_columns,
     round_values_in_column,
+    fill_symbol_name,
+    safe_convert_to_int
 )
 from src.tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
@@ -22,7 +24,6 @@ new_columns = [
     "price_contract",
     "forward",
     "forward_contract",
-    "symbol",
 ]
 
 
@@ -35,16 +36,18 @@ def generate_multiple_prices_sctructure(source_path: str, target_path: str):
     )
     processed_data_frames = []
     for symbol_name, data_frame in dataframes.items():
-        renamed = fix_names_of_columns(data_frame, symbol_name, new_columns)
+        renamed = fix_names_of_columns(data_frame, new_columns)
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_prices(date_timed, "date_time")
-        empty_value_checker(resampled)
-        rounded = round_values_in_column(resampled, "price")
-        rounded["carry_contract"] = rounded["carry_contract"].astype(int)
-        rounded["price_contract"] = rounded["price_contract"].astype(int)
-        rounded["forward_contract"] = rounded["forward_contract"].astype(int)
+        filled = fill_symbol_name(resampled, symbol_name)
+        empty_value_checker(filled)
+        filled = round_values_in_column(filled, "price")
 
-        processed_data_frames.append(rounded)
+        filled["carry_contract"] = safe_convert_to_int(filled["carry_contract"])
+        filled["price_contract"] = safe_convert_to_int(filled["price_contract"])
+        filled["forward_contract"] = safe_convert_to_int(filled["forward_contract"])
+
+        processed_data_frames.append(filled)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)
