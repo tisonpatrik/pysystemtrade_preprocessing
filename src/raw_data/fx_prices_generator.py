@@ -33,7 +33,7 @@ def generate_fx_prices_sctructure(source_path: str, target_path: str):
         date_timed = convert_date_to_date_time(renamed)
         resampled = aggregate_to_day_prices(date_timed, "date_time")
         rounded = round_values_in_column(resampled, "price")
-        filled = fill_symbol_name(date_timed, symbol_name)
+        filled = fill_symbol_name(rounded, symbol_name)
         empty_value_checker(filled)
 
         processed_data_frames.append(filled)
