@@ -36,7 +36,7 @@ def generate_fx_prices_sctructure(source_path: str, target_path: str):
         filled = fill_symbol_name(date_timed, symbol_name)
         empty_value_checker(filled)
 
-        processed_data_frames.append(rounded)
+        processed_data_frames.append(filled)
 
     result = concatenate_data_frames(processed_data_frames)
     target_path = os.path.join(target_path, target_name)
