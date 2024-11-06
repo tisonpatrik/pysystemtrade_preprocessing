@@ -1,8 +1,7 @@
 import os
 
 import pandas as pd
-
-from src.csv_utils.csv_generator import generate_csv_file
+from csv_utils.csv_generator import generate_csv_file
 
 file_name = "tradable_instruments.csv"
 

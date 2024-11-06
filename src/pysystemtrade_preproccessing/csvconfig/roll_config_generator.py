@@ -1,9 +1,8 @@
 import os
 
 import pandas as pd
-
-from src.csv_utils.csv_generator import generate_csv_file
-from src.tradable_insturments.tradable_instruments_generator import (
+from csv_utils.csv_generator import generate_csv_file
+from tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
 )
 
@@ -20,7 +19,7 @@ new_columns = [
 ]
 
 
-def generate_instrument_config_csv(source_path: str, target_path: str):
+def generate_roll_config_csv(source_path: str, target_path: str):
     source_path = os.path.join(source_path, source_name)
     df = pd.read_csv(source_path)
     df.columns = new_columns

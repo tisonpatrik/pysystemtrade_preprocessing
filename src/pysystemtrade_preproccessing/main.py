@@ -1,11 +1,11 @@
 import os
 
-from src.csvconfig.csvconfig_generator import generate_csvconfig_sctructure
-from src.raw_data.adjusted_prices_generator import generate_adjusted_prices_sctructure
-from src.raw_data.fx_prices_generator import generate_fx_prices_sctructure
-from src.raw_data.multiple_prices_generator import generate_multiple_prices_sctructure
-from src.raw_data.roll_calendars_generator import generate_roll_calendars_sctructure
-from src.tradable_insturments.tradable_instruments_generator import (
+from csvconfig.csvconfig_generator import generate_csvconfig_sctructure
+from raw_data.adjusted_prices_generator import generate_adjusted_prices_sctructure
+from raw_data.fx_prices_generator import generate_fx_prices_sctructure
+from raw_data.multiple_prices_generator import generate_multiple_prices_sctructure
+from raw_data.roll_calendars_generator import generate_roll_calendars_sctructure
+from tradable_insturments.tradable_instruments_generator import (
     generate_tradable_instruments_csv,
 )
 
@@ -51,7 +51,6 @@ class DirStructureGenerator:
         pass
 
     def generate_dir_structure(self):
-
         os.makedirs(self.get_data_dir_path(), exist_ok=True)
         os.makedirs(self.get_adjusted_prices_csv_path(), exist_ok=True)
         os.makedirs(self.get_csvconfig_path(), exist_ok=True)

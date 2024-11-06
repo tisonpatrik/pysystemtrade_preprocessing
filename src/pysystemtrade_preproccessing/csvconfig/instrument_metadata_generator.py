@@ -1,9 +1,8 @@
 import os
 
 import pandas as pd
-
-from src.csv_utils.csv_generator import generate_csv_file
-from src.tradable_insturments.tradable_instruments_generator import (
+from csv_utils.csv_generator import generate_csv_file
+from tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
 )
 
@@ -35,7 +34,7 @@ def generate_instrument_metadata_csv(source_path: str, target_path: str):
     generate_csv_file(fixed_missing_data, target_path)
 
 
-def finish_data(df):
+def finish_data(droped_columns):
     def determine_sub_class(row):
         # Check if sub_class is already set or not
         if pd.isna(row["sub_class"]):
@@ -52,5 +51,5 @@ def finish_data(df):
             return row["sub_class"]
 
     # Apply the function across rows, updating 'sub_class' based on 'symbol'
-    df["sub_class"] = df.apply(determine_sub_class, axis=1)
-    return df
+    droped_columns["sub_class"] = droped_columns.apply(determine_sub_class, axis=1)
+    return droped_columns

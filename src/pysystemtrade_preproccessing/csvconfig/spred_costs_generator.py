@@ -1,9 +1,8 @@
 import os
 
 import pandas as pd
-
-from src.csv_utils.csv_generator import generate_csv_file
-from src.tradable_insturments.tradable_instruments_generator import (
+from csv_utils.csv_generator import generate_csv_file
+from tradable_insturments.tradable_instruments_generator import (
     get_tradable_instruments,
 )
 
