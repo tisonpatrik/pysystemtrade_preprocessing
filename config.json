@@ -1,36 +1,39 @@
 [
   {
-    "Name": "instrumentconfig.csv",
-    "Path": "/data/temp/csvconfig",
-    "Output": "/data/csvconfig",
+    "Name": "instrumentconfig",
+    "Directory": "csvconfig",
     "Columns": [
       "symbol",
       "description",
       "pointsize",
       "currency",
       "asset_class",
+      "slippage",
       "per_block",
       "percentage",
       "per_trade",
       "region"
-    ]
+    ],
+    "RawData": false,
+    "DailyData": false
   },
   {
     "Name": "adjusted_prices",
-    "Path": "/data/temp/adjusted_prices_csv",
-    "Output": "/data/raw_data/adjusted_prices",
-    "Columns": ["time", "price"]
+    "Directory": "adjusted_prices_csv",
+    "Columns": ["time", "price"],
+    "RawData": false,
+    "DailyData": true
   },
   {
     "Name": "fx_prices",
-    "Path": "/data/temp/fx_prices_csv",
-    "Output": "/data/raw_data/fx_prices",
-    "Columns": ["time", "price"]
+    "Directory": "fx_prices_csv",
+    "Columns": ["time", "price"],
+    "RawData": true,
+    "DailyData": false
   },
   {
     "Name": "multiple_prices",
-    "Path": "/data/temp/multiple_prices_csv",
-    "Output": "/data/raw_data/multiple_prices",
+    "Directory": "multiple_prices_csv",
     "Columns": [
       "time",
       "carry",
@@ -39,6 +42,8 @@
       "price_contract",
       "forward",
       "forward_contract"
-    ]
+    ],
+    "RawData": true,
+    "DailyData": true
   }
 ]
