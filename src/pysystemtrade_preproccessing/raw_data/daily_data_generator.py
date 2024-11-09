@@ -19,8 +19,10 @@ def _get_daily_data(file: RawDataFile, columns: list[str]) -> pd.DataFrame:
     resampled = df.resample("1B").last()
     resampled = resampled.reset_index()
 
-    # Rename the headers based on the config
     resampled.columns = columns
+
+    # Keep only "time" and "price" columns
+    resampled = resampled[["time", "price"]]
 
     symbol = file.local_path.stem
     resampled["symbol"] = symbol
