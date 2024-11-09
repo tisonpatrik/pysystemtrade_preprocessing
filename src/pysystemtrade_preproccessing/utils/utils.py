@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
 from models.configs import Config, ConfigItem
 from models.raw_data import RawDataFile
 
@@ -44,3 +46,9 @@ def load_config(root: Path) -> Config:
         config_data = json.load(file)
 
     return Config(items=[ConfigItem(**item) for item in config_data])
+
+
+def split_large_dataframe(df: pd.DataFrame, max_rows: int = 500000) -> list[pd.DataFrame]:
+    """Splits a large DataFrame into a list of smaller DataFrames, each with a maximum of `max_rows` rows."""
+    num_chunks = int(np.ceil(len(df) / max_rows))
+    return [pd.DataFrame(chunk, columns=df.columns) for chunk in np.array_split(df, num_chunks)]
