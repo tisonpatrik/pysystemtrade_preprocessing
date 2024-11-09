@@ -24,13 +24,13 @@ def process_files(root: Path, files: list[RawDataFile]):
 
         if directory_config.daily_data:
             df = create_daily_dataframe(valid_directories, directory, file_list)
-            _save_dataframe(df, root, directory_config.name)
+            _save_dataframe(df, root, f"daily_{directory_config.name}")
 
-        elif directory_config.raw_data:
+        if directory_config.raw_data:
             df = create_raw_dataframe(valid_directories, directory, file_list)
             _save_dataframe(df, root, directory_config.name)
 
-        else:
+        if directory_config.raw_data is False and directory_config.daily_data is False:
             df = create_instrumentconfig_dataframe(valid_directories, directory, file_list, root)
             _save_dataframe(df, root, directory_config.name)
 
