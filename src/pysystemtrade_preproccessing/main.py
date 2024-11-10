@@ -5,8 +5,8 @@ from utils.utils import get_project_root
 
 def main():
     root = get_project_root()
-    files = load_or_raw_data(local_dir=root)
-    process_files(root, files)
+    directories = load_or_raw_data(local_dir=root)
+    process_files(root, directories)
 
 
 if __name__ == "__main__":

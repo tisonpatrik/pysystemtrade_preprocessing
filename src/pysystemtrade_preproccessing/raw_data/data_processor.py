@@ -1,38 +1,39 @@
 import logging
-from collections import defaultdict
 from pathlib import Path
 
-from models.raw_data import RawDataFile
+from models.raw_data import ConfigItem, Directory
 from raw_data.daily_data_generator import create_daily_dataframe
 from raw_data.instrumentconfig_generator import create_instrumentconfig_dataframe
 from raw_data.raw_data_generator import create_raw_dataframe
-from utils.utils import create_dir, load_config, split_large_dataframe
+from utils.utils import create_dir, load_config_items, split_large_dataframe
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def process_files(root: Path, files: list[RawDataFile]):
+def process_files(root: Path, directories: list[Directory]):
     # Load the configuration
-    config = load_config(root)
-    valid_directories = {item.directory: item for item in config.items}
-    # Group files using the private helper method, converting keys to a set
-    grouped_files = _group_files_by_directory(files, set(valid_directories.keys()))
+    valid_sources = load_config_items(root)
+    tuples = _match_directories_with_config(valid_sources, directories)
+    adjusted_prices_directory = next(directory_item for directory_item in directories if directory_item.name == "adjusted_prices_csv")
+    for directory_config, directory in tuples:
+        if directory.name == "multiple_prices_csv":
+            daily_denom_prices = create_daily_dataframe(directory_config, directory)
+            _save_dataframe(daily_denom_prices, root, f"daily_{directory_config.name}")
 
-    for directory, file_list in grouped_files.items():
-        directory_config = valid_directories[directory]
+            multiple_prices = create_raw_dataframe(directory_config, directory)
+            _save_dataframe(multiple_prices, root, directory_config.name)
+        if directory.name == "adjusted_prices_csv":
+            daily_adjusted_prices = create_daily_dataframe(directory_config, directory)
+            _save_dataframe(daily_adjusted_prices, root, f"daily_{directory_config.name}")
 
-        if directory_config.daily_data:
-            df = create_daily_dataframe(valid_directories, directory, file_list)
-            _save_dataframe(df, root, f"daily_{directory_config.name}")
+        if directory.name == "fx_prices_csv":
+            fx_prices = create_raw_dataframe(directory_config, directory)
+            _save_dataframe(fx_prices, root, directory_config.name)
 
-        if directory_config.raw_data:
-            df = create_raw_dataframe(valid_directories, directory, file_list)
-            _save_dataframe(df, root, directory_config.name)
-
-        if directory_config.raw_data is False and directory_config.daily_data is False:
-            df = create_instrumentconfig_dataframe(valid_directories, directory, file_list, root)
-            _save_dataframe(df, root, directory_config.name)
+        if directory.name == "csvconfig":
+            instrument_config = create_instrumentconfig_dataframe(directory_config, directory, root, adjusted_prices_directory)
+            _save_dataframe(instrument_config, root, directory_config.name)
 
 
 def _save_dataframe(df, root: Path, filename: str):
@@ -51,9 +52,11 @@ def _save_dataframe(df, root: Path, filename: str):
         logger.info("Saved split file: %s", part_out_file)
 
 
-def _group_files_by_directory(files: list[RawDataFile], valid_directories: set[str]) -> dict:
-    grouped_files = defaultdict(list)
-    for file in files:
-        if file.directory in valid_directories:
-            grouped_files[file.directory].append(file)
-    return grouped_files
+def _match_directories_with_config(valid_sources: list[ConfigItem], directories: list[Directory]) -> list[tuple[ConfigItem, Directory]]:
+    matched_items = []
+    for config_item in valid_sources:
+        matching_directory = next((directory for directory in directories if directory.name == config_item.directory), None)
+        if matching_directory:
+            matched_items.append((config_item, matching_directory))
+
+    return matched_items

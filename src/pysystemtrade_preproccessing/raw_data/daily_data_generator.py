@@ -1,18 +1,17 @@
 import pandas as pd
-from models.configs import ConfigItem
-from models.raw_data import RawDataFile
+from models.raw_data import ConfigItem, DataFile, Directory
 
 
-def create_daily_dataframe(valid_directories: dict[str, ConfigItem], directory: str, file_list: list[RawDataFile]):
+def create_daily_dataframe(directory_config: ConfigItem, directory: Directory):
     daily_dataframes = []
-    columns = valid_directories[directory].columns
-    for file in file_list:
+    columns = directory_config.columns
+    for file in directory.raw_data:
         df = _get_daily_data(file, columns)
         daily_dataframes.append(df)
     return pd.concat(daily_dataframes, ignore_index=True)
 
 
-def _get_daily_data(file: RawDataFile, columns: list[str]) -> pd.DataFrame:
+def _get_daily_data(file: DataFile, columns: list[str]) -> pd.DataFrame:
     df = pd.read_csv(file.local_path, index_col=0, parse_dates=True)
 
     # Resample data to business day frequency

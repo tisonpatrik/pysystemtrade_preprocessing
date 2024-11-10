@@ -1,23 +1,33 @@
 from pathlib import Path
 
 import pandas as pd
-from models.configs import ConfigItem
-from models.raw_data import RawDataFile
+from models.raw_data import ConfigItem, DataFile, Directory
 
 
-def create_instrumentconfig_dataframe(valid_directories: dict[str, ConfigItem], directory: str, file_list: list[RawDataFile], root: Path):
+def create_instrumentconfig_dataframe(
+    directory_config: ConfigItem, directory: Directory, root: Path, adjusted_prices_dir: Directory
+) -> pd.DataFrame:
     tradable_instruments_path = root / "tradable_instruments.csv"
     tradable_instruments = pd.read_csv(tradable_instruments_path, parse_dates=True)
-    expected_name = valid_directories[directory].name
-    matching_file = next(f for f in file_list if f.local_path.stem == expected_name)
-    columns = valid_directories[directory].columns
+    expected_name = directory_config.name
+
+    # Attempt to find the matching file or return None if not found
+    matching_file = next(f for f in directory.raw_data if f.local_path.stem == expected_name)
+    # Proceed with the DataFrame processing
+    columns = directory_config.columns
     df = pd.read_csv(matching_file.local_path, parse_dates=True)
     df.columns = columns
-    df["tradable"] = df["symbol"].isin(tradable_instruments["symbol"])
+    df["is_tradable"] = df["symbol"].isin(tradable_instruments["symbol"])
+
+    # Extract file stems from adjusted_prices_dir.raw_data into list_instruments
+    list_instruments = [file.local_path.stem for file in adjusted_prices_dir.raw_data]
+
+    # Create a 'have_data' column in df based on the presence of symbols in list_instruments
+    df["have_data"] = df["symbol"].isin(list_instruments)
     return df
 
 
-def _get_raw_dataframe(file: RawDataFile, columns: list[str]) -> pd.DataFrame:
+def _get_raw_dataframe(file: DataFile, columns: list[str]) -> pd.DataFrame:
     df = pd.read_csv(file.local_path, parse_dates=True)
 
     # Rename the headers based on the config

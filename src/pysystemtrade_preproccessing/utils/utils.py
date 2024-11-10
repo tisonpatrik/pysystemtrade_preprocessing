@@ -3,8 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from models.configs import Config, ConfigItem
-from models.raw_data import RawDataFile
+from models.raw_data import ConfigItem, DataFile, Directory
 
 
 def get_project_root() -> Path:
@@ -27,16 +26,25 @@ def check_and_confirm_directory(directory: Path) -> bool:
     return True  # Proceed with operation
 
 
-def load_existing_content(directory: Path) -> list[RawDataFile]:
-    """Loads existing files in the directory into DownloadedContent without downloading."""
-    return [
-        RawDataFile(name=file_path.name, local_path=file_path, directory=file_path.parent.name)
-        for file_path in directory.rglob("*")
-        if file_path.is_file()
-    ]
+def load_existing_content(directory: Path) -> list[Directory]:
+    """Loads existing CSV files and directories in the given directory into a structured list of Directory with associated DataFile."""
+    directories: dict[str, Directory] = {}
+    for file_path in directory.rglob("*"):
+        if file_path.is_file() and file_path.suffix == ".csv":
+            dir_name = file_path.parent.name
+            if dir_name not in directories:
+                directories[dir_name] = Directory(name=dir_name)
+
+            data_file = DataFile(name=file_path.name, local_path=file_path)
+            directories[dir_name].add_file(data_file)
+
+        elif file_path.is_dir() and file_path.name not in directories:
+            directories[file_path.name] = Directory(name=file_path.name)
+
+    return list(directories.values())
 
 
-def load_config(root: Path) -> Config:
+def load_config_items(root: Path) -> list[ConfigItem]:
     config_path = root / "config.json"
 
     if not config_path.is_file():
@@ -45,7 +53,7 @@ def load_config(root: Path) -> Config:
     with config_path.open("r") as file:
         config_data = json.load(file)
 
-    return Config(items=[ConfigItem(**item) for item in config_data])
+    return [ConfigItem(**item) for item in config_data]
 
 
 def split_large_dataframe(df: pd.DataFrame, max_rows: int = 500000) -> list[pd.DataFrame]:

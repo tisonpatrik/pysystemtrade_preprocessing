@@ -12,23 +12,17 @@
       "percentage",
       "per_trade",
       "region"
-    ],
-    "RawData": false,
-    "DailyData": false
+    ]
   },
   {
     "Name": "adjusted_prices",
     "Directory": "adjusted_prices_csv",
-    "Columns": ["time", "price"],
-    "RawData": false,
-    "DailyData": true
+    "Columns": ["time", "price"]
   },
   {
     "Name": "fx_prices",
     "Directory": "fx_prices_csv",
-    "Columns": ["time", "price"],
-    "RawData": true,
-    "DailyData": false
+    "Columns": ["time", "price"]
   },
   {
     "Name": "multiple_prices",
@@ -41,8 +35,6 @@
       "price_contract",
       "forward",
       "forward_contract"
-    ],
-    "RawData": true,
-    "DailyData": true
+    ]
   }
 ]
