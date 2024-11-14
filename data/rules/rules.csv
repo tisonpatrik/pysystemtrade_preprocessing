@@ -1,0 +1,41 @@
+rule_variation_name,rule_name,rule_parameters,fixed_scaling_factor,use_attenuation
+breakout10,breakout,"{""lookback"": 10}",0.6031025130185256,True
+breakout20,breakout,"{""lookback"": 20}",0.6742627921625178,True
+breakout40,breakout,"{""lookback"": 40}",0.7036929411910525,True
+breakout80,breakout,"{""lookback"": 80}",0.726260784624834,True
+breakout160,breakout,"{""lookback"": 160}",0.7388310187414805,True
+breakout320,breakout,"{""lookback"": 320}",0.7366197028421859,True
+relmomentum10,relative_momentum,"{""horizon"": 10}",61.24026078373817,True
+relmomentum20,relative_momentum,"{""horizon"": 20}",86.50746400987076,True
+relmomentum40,relative_momentum,"{""horizon"": 40}",117.77937298659975,True
+relmomentum80,relative_momentum,"{""horizon"": 80}",159.87802982511536,True
+mrinasset1000,cross_sectional_mean_reversion,"{""horizon"": 1000}",653.253194,True
+carry10,carry,"{""smooth_days"": 10}",27.815707053556984,False
+carry30,carry,"{""smooth_days"": 30}",28.384062881349813,False
+carry60,carry,"{""smooth_days"": 60}",28.40072429176199,False
+carry125,carry,"{""smooth_days"": 125}",29.36647450072989,False
+assettrend2,assettrend,"{""lfast"": 2, ""lslow"": 8}",10.846520114531351,True
+assettrend4,assettrend,"{""lfast"": 4, ""lslow"": 16}",7.572334583056326,True
+assettrend8,assettrend,"{""lfast"": 8, ""lslow"": 32}",5.190470936448635,True
+assettrend16,assettrend,"{""lfast"": 16, ""lslow"": 64}",3.549452858682833,True
+assettrend32,assettrend,"{""lfast"": 32, ""lslow"": 128}",2.3449234496490723,True
+assettrend64,assettrend,"{""lfast"": 64, ""lslow"": 256}",1.546514436688612,True
+normmom2,normmom,"{""lfast"": 2, ""lslow"": 8}",12.388305650778635,True
+normmom4,normmom,"{""lfast"": 4, ""lslow"": 16}",8.614429965006694,True
+normmom8,normmom,"{""lfast"": 8, ""lslow"": 32}",5.979138542342214,True
+normmom16,normmom,"{""lfast"": 16, ""lslow"": 64}",4.116536590599602,True
+normmom32,normmom,"{""lfast"": 32, ""lslow"": 128}",2.758872936017786,True
+normmom64,normmom,"{""lfast"": 64, ""lslow"": 256}",1.870680070112088,True
+momentum4,momentum,"{""lfast"": 4, ""lslow"": 16}",8.539940954709955,True
+momentum8,momentum,"{""lfast"": 8, ""lslow"": 32}",5.949404365193165,True
+momentum16,momentum,"{""lfast"": 16, ""lslow"": 64}",4.104172020369661,True
+momentum32,momentum,"{""lfast"": 32, ""lslow"": 128}",2.786994330124792,True
+momentum64,momentum,"{""lfast"": 64, ""lslow"": 256}",1.9093945630747893,True
+relcarry,relative_carry,{},49.44179741391023,False
+skewabs365,skewabs,"{""smooth"": 90, ""lookback"": 365}",2.351483885205172,False
+skewabs180,skewabs,"{""smooth"": 45, ""lookback"": 180}",4.590246757939031,False
+skewrv365,skewrv,"{""smooth"": 90, ""lookback"": 365}",3.002222097593425,False
+skewrv180,skewrv,"{""smooth"": 45, ""lookback"": 180}",5.244752769697409,False
+accel16,accel,"{""lfast"": 16}",7.817071060538709,False
+accel32,accel,"{""lfast"": 32}",5.563487137713779,False
+accel64,accel,"{""lfast"": 64}",3.896720541225276,False

@@ -1,9 +1,8 @@
-import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from models.raw_data import ConfigItem, DataFile, Directory
+from models.raw_data import DataFile, Directory
 
 
 def get_project_root() -> Path:
@@ -42,18 +41,6 @@ def load_existing_content(directory: Path) -> list[Directory]:
             directories[file_path.name] = Directory(name=file_path.name)
 
     return list(directories.values())
-
-
-def load_config_items(root: Path) -> list[ConfigItem]:
-    config_path = root / "config.json"
-
-    if not config_path.is_file():
-        raise FileNotFoundError(f"Config file not found at {config_path}")
-
-    with config_path.open("r") as file:
-        config_data = json.load(file)
-
-    return [ConfigItem(**item) for item in config_data]
 
 
 def split_large_dataframe(df: pd.DataFrame, max_rows: int = 500000) -> list[pd.DataFrame]:

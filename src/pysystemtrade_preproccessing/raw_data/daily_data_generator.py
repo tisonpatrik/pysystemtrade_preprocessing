@@ -1,10 +1,19 @@
 import pandas as pd
-from models.raw_data import ConfigItem, DataFile, Directory
+from models.raw_data import DataFile, Directory
 
 
-def create_daily_dataframe(directory_config: ConfigItem, directory: Directory):
+def create_daily_multiple_prices(directory: Directory):
     daily_dataframes = []
-    columns = directory_config.columns
+    columns = ["time", "carry", "carry_contract", "price", "price_contract", "forward", "forward_contract"]
+    for file in directory.raw_data:
+        df = _get_daily_data(file, columns)
+        daily_dataframes.append(df)
+    return pd.concat(daily_dataframes, ignore_index=True)
+
+
+def create_daily_adjusted_prices(directory: Directory):
+    daily_dataframes = []
+    columns = ["time", "price"]
     for file in directory.raw_data:
         df = _get_daily_data(file, columns)
         daily_dataframes.append(df)
